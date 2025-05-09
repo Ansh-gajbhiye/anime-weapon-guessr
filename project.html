@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guess the Anime</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c1c1c;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    img {
+      max-width: 100%;
+      border: 4px solid white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+    .correct {
+      color: limegreen;
+    }
+    .wrong {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Guess the Anime from the Screenshot</h1>
+  <img id="animeImage" src="" alt="Anime Screenshot" />
+  <div>
+    <input type="text" id="guessInput" placeholder="Enter anime name..." />
+    <button onclick="checkGuess()">Submit</button>
+  </div>
+  <p id="result"></p>
+  <button onclick="nextImage()">Next</button>
+
+  <script>
+    const images = [
+      { src: "https://i.imgur.com/K1qPhQF.jpg", answer: "Attack on Titan" },
+      { src: "https://i.imgur.com/XaRzCvv.jpg", answer: "Demon Slayer" },
+      { src: "https://i.imgur.com/6p2z3sk.jpg", answer: "Naruto" }
+    ];
+
+    let currentIndex = 0;
+
+    function loadImage() {
+      document.getElementById("animeImage").src = images[currentIndex].src;
+      document.getElementById("result").textContent = "";
+      document.getElementById("guessInput").value = "";
+    }
+
+    function checkGuess() {
+      const guess = document.getElementById("guessInput").value.trim().toLowerCase();
+      const answer = images[currentIndex].answer.toLowerCase();
+      const result = document.getElementById("result");
+      if (guess === answer) {
+        result.textContent = "Correct! 🎉";
+        result.className = "correct";
+      } else {
+        result.textContent = `Wrong! The correct answer was: ${images[currentIndex].answer}`;
+        result.className = "wrong";
+      }
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      loadImage();
+    }
+
+    window.onload = loadImage;
+  </script>
+</body>
+</html>
